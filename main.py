@@ -24,7 +24,9 @@ def prepword(word):
     missing_letter_num = randint(0,7)
     missing_letter = letters[missing_letter_num]
     letters[missing_letter_num] = "?"
+    # missing_letter = ""
     return letters, missing_letter
+
 def makeTaart(letters):
     if len(letters) != 8:
         print("Invalid word, try again")
@@ -35,13 +37,22 @@ def makeTaart(letters):
         print(" ", letters[6], "\t", "\t", letters[3]," ")
         print("\t", letters[5], "\t", letters[4], "\t")
 
+def makePaardensprong(letters):
+    if len(letters) != 8:
+        print("Invalid word, try again")
+        return
+    else:
+        print(" ", letters[0], "\t", letters[3], " \t", letters[6])
+        print(" ", letters[5], "\t \t \t", letters[1])
+        print(" ", letters[2], "\t", letters[7], " \t", letters[4])
+
 
 if __name__ == '__main__':
     words = readwords()
     while True:
         word = pickword(words)
         letters, missing_letter = prepword(word)
-        makeTaart(letters)
+        makePaardensprong(letters)
 
         ans = input("See solution?")
         if ans != None:
