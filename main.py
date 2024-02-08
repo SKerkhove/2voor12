@@ -14,17 +14,19 @@ def pickword(wordlist):
     num = randint(0, len(wordlist)-1)
     return wordlist[num]
 
-def prepword(word):
+def prepword(word, game):
     letters = list(word)
     mirrorTrue = randint(0,1)
     if mirrorTrue == 1:
         letters.reverse()
     rotate = randint(0,7)
     letters = letters[rotate:] + letters[:rotate]
-    missing_letter_num = randint(0,7)
-    missing_letter = letters[missing_letter_num]
-    letters[missing_letter_num] = "?"
-    # missing_letter = ""
+    if game == 0:
+        missing_letter_num = randint(0,7)
+        missing_letter = letters[missing_letter_num]
+        letters[missing_letter_num] = "?"
+    else:
+        missing_letter = None
     return letters, missing_letter
 
 def makeTaart(letters):
@@ -46,20 +48,39 @@ def makePaardensprong(letters):
         print(" ", letters[5], "\t \t \t", letters[1])
         print(" ", letters[2], "\t", letters[7], " \t", letters[4])
 
+def taart(words):
+    word = pickword(words)
+    letters, missing_letter = prepword(word,0)
+    makeTaart(letters)
+    return word, missing_letter
+
+def paardensprong(words):
+    word = pickword(words)
+    letters, _ = prepword(word,1)
+    makePaardensprong(letters)
+    return word
 
 if __name__ == '__main__':
     words = readwords()
+    ans1 = input("Welk spel wil je spelen?"
+                 "(0) Taartpuzzel"
+                 "(1) Paardensprong")
+
     while True:
-        word = pickword(words)
-        letters, missing_letter = prepword(word)
-        makePaardensprong(letters)
+        if int(ans1) == 0:
+            word, missing_letter = taart(words)
 
-        ans = input("See solution?")
-        if ans != None:
-            print("The missing letter was ", missing_letter, word)
+            ans = input("Druk op enter voor de oplossing")
+            if ans != None:
+                print("De ontbrekende letter was ", missing_letter,"\n", word)
+        if int(ans1) == 1:
+            word = paardensprong(words)
+            ans = input("Druk op enter voor de oplossing")
+            if ans != None:
+                print("Het antwoord is ", word)
 
-        again = input("New puzzle?"
-                      "\n\t(0) Yes"
-                      "\n\t(1) No\n")
+        again = input("Nieuwe puzzel?"
+                      "\n\t(0) Ja"
+                      "\n\t(1) Nee\n")
         if int(again) == 1:
             break
